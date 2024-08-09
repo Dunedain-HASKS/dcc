@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import axios from 'axios';
 import './AddProblem.css';
+import { toast } from 'react-toastify';
 import baseURL from '../utils/baseURL';
 
 const AddProblem = () => {
@@ -19,7 +20,7 @@ const AddProblem = () => {
       const newTestCases = testCases.filter((_, idx) => idx !== index);
       setTestCases(newTestCases);
     } else {
-      alert('At least one test case is required.');
+      toast.error('At least one test case is required');
     }
   };
 
@@ -43,26 +44,24 @@ const AddProblem = () => {
       constraints,
       examples: testCases
     };
-    console.log(JSON.stringify(questionData, null, 2));
 
     try {
-      await axios.post(`${baseURL}/api/question/new-question`, questionData);
-      alert('Question added successfully');
-      // Reset form
+      await axios.post(`${baseURL}/question/new-question`, questionData);
+      toast.success('Problem added successfully');
       setTitle('');
       setDescription('');
       setConstraints('');
       setTestCases([{ input: '', output: '', explanation: '', isSample: false, showExplanation: false }]);
     } catch (error) {
       console.error('Error adding question:', error);
-      alert('Failed to add question');
+      toast.error('Failed to add question');
     }
   };
 
   return (
     <div className="container add-question-page">
       <div className="problem-home-banner">
-        <h1>Add New Question</h1>
+        <h1>Add New Problem</h1>
       </div>
       <div className="problem-home-content">
         <form onSubmit={handleSubmit}>
