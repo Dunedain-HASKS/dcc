@@ -1,0 +1,106 @@
+.add-question-page {
+    font-family: 'Consolas', 'Arial', sans-serif;
+    color: #2c3e50;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(to right, #6a82fb, #fc5c7d);
+    min-height: 100vh;
+  }
+  
+  .problem-home-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  
+  .problem-home-content {
+    background: #fff;
+    padding: 2rem;
+    margin-top: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 0.5rem;
+  }
+  
+  .test-case {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+  }
+
+  .test-case textarea {
+    width: 98%;
+    padding: 0.8rem;
+   
+  }
+
+  .form-group input[type="text"] {
+    width: 98%;
+    padding: 0.8rem;
+  }
+  
+  .remove-test-case-button {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+  }
+  
+  .remove-test-case-button:hover {
+    background-color: #c0392b;
+  }
+  
+  .toggle-explanation-button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+  }
+  
+  .toggle-explanation-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .cta-button {
+    background-color: #fc5c7d;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #eb2f64;
+  }
+  
