@@ -3,9 +3,9 @@ import { useState } from 'react';
 import Editor from '@monaco-editor/react';
 
 import './Compiler.css';
-import Navbar from './Navbar';
 import baseURL from '../utils/baseURL';
 import spinner from '../assets/spinner.svg';
+import CompilerHeader from './CompilerHeader';
 
 const Compiler = () => {
     const cppBoilerPlate = `#include<bits/stdc++.h>
@@ -34,7 +34,7 @@ int main() {
             return;
         }
 
-        Axios.post(`${baseURL}/compile`, {
+        Axios.post(`${baseURL}/compiler`, {
             code: userCode,
             language: userLang,
             input: userInput
@@ -61,12 +61,13 @@ int main() {
     }
 
     return (
-        <div className="App">
-            <Navbar
-                userLang={userLang} setUserLang={setUserLang}
-                setUserCode={setUserCode}
+        <div className="compiler">
+                
+            <CompilerHeader
                 userTheme={userTheme} setUserTheme={setUserTheme}
                 fontSize={fontSize} setFontSize={setFontSize}
+                userLang={userLang} setUserLang={setUserLang}
+                setUserCode={setUserCode}
             />
             <div className="main">
                 <div className="left-container">
