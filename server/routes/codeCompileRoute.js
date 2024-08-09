@@ -3,6 +3,6 @@ import { compile } from "../controller/codeCompiler.js";
 
 const router = Router();
 
-router.route("/compile").post(compile);
+router.route("/").post(compile);
 
 export default router;
