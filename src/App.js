@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import Compiler from './components/Compiler';
 
 import './App.css';
+import Problems from "./pages/Problems";
 
 function App() {
     
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/compiler" element={<Compiler />} />
                     <Route path="/add-problem" element={<AddProblem />} />
+                    <Route path="/problems" element={<Problems />} />
             </Routes>
             </Router>
             <ToastContainer />
