@@ -9,7 +9,7 @@ const leaderboard = expressAsyncHandler(async (req, res) => {
         return;
     }
     // console.log(contest);
-    const contestUsers = await contestUserModel.find({ contestId: contest._id });
+    const contestUsers = await contestUserModel.find({ contestId: contest._id }).populate("userId");
     console.log(contestUsers);
     const leaderboard = contestUsers.map((contestUser) => {
         return {

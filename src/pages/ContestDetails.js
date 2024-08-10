@@ -4,6 +4,7 @@ import './ContestDetails.css';
 import axios from 'axios';
 import baseURL from '../utils/baseURL';
 import { useNavigate, Link } from 'react-router-dom';
+
 const ContestDetails = () => {
   const { id } = useParams();
   const [contest, setContest] = useState(null);
@@ -24,17 +25,21 @@ const ContestDetails = () => {
 
     fetchContestDetails();
   }, [id]);
+  
+  const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
-    const learBoard = async () => {
+    const fetchLeaderboard = async () => {
       try {
         const response = await axios.get(`${baseURL}/contest/${id}/leaderboard`);
-        console.log(response);
+        setLeaderboard(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching leaderboard:', error);
       }
     };
-    learBoard();
+
+    fetchLeaderboard();
   }, [id]);
 
 
@@ -62,13 +67,19 @@ const ContestDetails = () => {
       </div>
       <div className="leaderboard">
         <h3>Leaderboard</h3>
-        {/* <ul>
-          {contest.leaderboard.map((user, index) => (
-            <li key={user.username}>
-              {index + 1}. {user.username} - {user.solved} questions solved
-            </li>
-          ))}
-        </ul> */}
+        {leaderboard.length > 0 ? (
+            <ul>
+              {leaderboard.map((user, index) => (
+                <li key={user.username}>
+                  <span>{index + 1}. </span>
+                  <span>{user.username}</span>
+                  <span>solve : {user.solved}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No participants have solved any questions yet.</p>
+          )}
       </div>
     </div>
   );
