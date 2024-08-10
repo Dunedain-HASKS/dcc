@@ -11,6 +11,7 @@ import UserDashboard from './pages/UserDashboard';
 
 import './App.css';
 import Problems from "./pages/Problems";
+import LoginRegister from "./pages/LoginRegister";
 
 function App() {
     
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/add-problem" element={<AddProblem />} />
                     <Route path="/user-dashboard" element={<UserDashboard />} />
                     <Route path="/problems" element={<Problems />} />
+                    <Route path="/login" element={<LoginRegister />} />
             </Routes>
             </Router>
             <ToastContainer />
