@@ -1,0 +1,154 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Pusher from 'pusher-js';
+import './ContestPage.css';
+import baseURL from '../utils/baseURL';
+import axios from 'axios';
+import CreateContestModal from '../components/CreateContestModal';
+
+const ContestPage = () => {
+  const [contests, setContests] = useState({ current: [], upcoming: [], finished: [] });
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const fetchContests = async () => {
+      const response = await axios.get(`${baseURL}/contest`);
+      const now = new Date();
+      const contests = response.data.reduce((acc, contest) => {
+        const startTime = new Date(contest.startTime);
+        const endTime = new Date(contest.endTime);
+        if (endTime > now) {
+          if (startTime > now) {
+            acc.upcoming.push(contest);
+          } else {
+            acc.current.push(contest);
+          }
+        } else {
+          acc.finished.push(contest);
+        }
+        return acc;
+      }, { current: [], upcoming: [], finished: [] });
+
+      setContests(contests);
+    };
+
+    fetchContests();
+
+    const pusher = new Pusher('01a3b6138010bc2c4d34', {
+      cluster: 'ap2',
+    });
+
+    const channel = pusher.subscribe('contests');
+    channel.bind('update', (data) => {
+      const contest = data.contest;
+      setContests((prevContests) => {
+        const now = new Date();
+        const startTime = new Date(contest.startTime);
+        const endTime = new Date(contest.endTime);
+        const updatedContests = { ...prevContests };
+
+        if (endTime > now) {
+          if (startTime > now) {
+            updatedContests.upcoming.push(contest);
+          } else {
+            updatedContests.current.push(contest);
+          }
+        } else {
+          updatedContests.finished.push(contest);
+        }
+        return updatedContests;
+      });
+    });
+
+    return () => {
+      pusher.unsubscribe('contests');
+    };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setContests((prevContests) => {
+        const updatedContests = { ...prevContests };
+        updatedContests.current = prevContests.current.filter(
+          (contest) => new Date(contest.endTime) > now
+        );
+        updatedContests.finished = [
+          ...prevContests.finished,
+          ...prevContests.current.filter((contest) => new Date(contest.endTime) <= now),
+        ];
+        return updatedContests;
+      });
+    }, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const renderContests = (contests, title) => (
+    <div className="contest-section">
+      <h3>{title}</h3>
+      {contests.length === 0 ? (
+        <p>No contests available</p>
+      ) : (
+        contests.map((contest) => (
+          <div key={contest._id} className="contest-card">
+            <h4>{contest.name}</h4>
+            <p>Participants: {contest.participants.length}</p>
+            <p>Questions: {contest.questions.length}</p>
+            <p>
+              {new Date(contest.startTime).toLocaleString()} -{' '}
+              {new Date(contest.endTime).toLocaleString()}
+            </p>
+            <Link to={`/contest/${contest._id}`}>Join Contest </Link>
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const handleCreateContest = () => {
+    setShowModal(true);
+  };
+
+  const handleContestCreated = () => {
+    const fetchContests = async () => {
+      const response = await axios.get(`${baseURL}/contest`);
+      const now = new Date();
+      const contests = response.data.reduce((acc, contest) => {
+        const startTime = new Date(contest.startTime);
+        const endTime = new Date(contest.endTime);
+        if (endTime > now) {
+          if (startTime > now) {
+            acc.upcoming.push(contest);
+          } else {
+            acc.current.push(contest);
+          }
+        } else {
+          acc.finished.push(contest);
+        }
+        return acc;
+      }, { current: [], upcoming: [], finished: [] });
+
+      setContests(contests);
+    };
+
+    fetchContests();
+  };
+
+  return (
+    <div className="contest-page">
+      {renderContests(contests.current, 'Current Contests')}
+      {renderContests(contests.upcoming, 'Upcoming Contests')}
+      {renderContests(contests.finished, 'Finished Contests')}
+      <button className="create-contest-button" onClick={handleCreateContest}>
+        Create Contest
+      </button>
+
+      {showModal && (
+        <CreateContestModal setShowModal={setShowModal} onCreateContest={handleContestCreated} />
+      )}
+    </div>
+  );
+};
+
+export default ContestPage;

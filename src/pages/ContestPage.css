@@ -1,0 +1,54 @@
+.contest-page {
+    font-family: 'Consolas', 'Arial', sans-serif;
+    color: #2c3e50;
+    padding: 2rem;
+    background: linear-gradient(to right, #6a82fb, #fc5c7d);
+    min-height: 100vh;
+  }
+  
+  .contest-section {
+    margin-bottom: 2rem;
+  }
+  
+  .contest-card {
+    background: #fff;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .contest-card h4 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .contest-card p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
+  
+  .contest-card button,
+  .contest-card a {
+    margin-right: 1rem;
+  }
+  
+  .create-contest-button {
+    background-color: #fc5c7d;
+    color: #fff;
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .create-contest-button:hover {
+    background-color: #eb2f64;
+  }
+  

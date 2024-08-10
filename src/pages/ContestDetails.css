@@ -1,0 +1,36 @@
+.contest-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    background: linear-gradient(to right, #6a82fb, #fc5c7d);
+    min-height: 100vh;
+  }
+  
+  .questions-list,
+  .leaderboard {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+  }
+  
+  .questions-list h3,
+  .leaderboard h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #6a82fb;
+  }
+  
+  .questions-list ul,
+  .leaderboard ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .questions-list li,
+  .leaderboard li {
+    margin: 10px 0;
+    font-size: 1.2rem;
+  }
+  
