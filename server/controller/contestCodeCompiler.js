@@ -89,9 +89,11 @@ export async function submitQuestion(req, res) {
       };
       
       await ContentSolution.create(newSolution);
-  
-      contestUser.solved.push(queId);
-      await contestUser.save();
+      
+      if(!contestUser.solved.includes(queId)){
+        contestUser.solved.push(queId);
+        await contestUser.save();
+      }
   
       res.status(200).send({ message: "All test cases passed successfully!" });
     };
