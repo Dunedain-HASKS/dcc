@@ -2,6 +2,21 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
+
+    window.onload = function() {
+        
+        const name = prompt("Enter your name:");
+        
+        if(name === null || name === "") {
+            alert("Please enter a valid name!");
+            window.location.reload();
+            return;
+        }
+
+        alert("Welcome, " + name + "! Let's start coding!");
+        localStorage.setItem('userName',name);
+    }
+
     return (
         <nav className="navbar">
             <div className="logo">
