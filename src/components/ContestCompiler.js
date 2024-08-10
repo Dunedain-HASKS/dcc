@@ -5,13 +5,14 @@ import Editor from '@monaco-editor/react';
 import './Compiler.css';
 import baseURL from '../utils/baseURL';
 import CompilerHeader from './CompilerHeader';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const ContestCompiler = () => {
 
     const questionId = useParams().queId;
     const contestId = useParams().contestId;
+    const navigate = useNavigate();
 
     const cppBoilerPlate = `#include<bits/stdc++.h>
 using namespace std;
@@ -80,6 +81,8 @@ int main() {
                 toast.success(response.data.message);
                 
                 setLoading(false);
+                navigate(`/contests/${contestId}`);
+
             } catch (error) {
             console.error(error);
             setLoading(false);

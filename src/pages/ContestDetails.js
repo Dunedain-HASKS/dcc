@@ -10,16 +10,6 @@ const ContestDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
-
-  const handleContestClick = (contestId) => {
-    // Perform any additional tasks if needed
-
-    // Navigate to the contest page
-    navigate(`/contest/${contestId}`);
-  };
-
-
   useEffect(() => {
     const fetchContestDetails = async () => {
       try {

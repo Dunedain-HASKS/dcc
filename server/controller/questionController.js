@@ -64,9 +64,9 @@ const contestShowQuestion = expressAsyncHandler(async (req, res) => {
   const username = req.headers.username;
   const user = await User.findOne({ username });
 
-  const solution = await contestSolution.findOne({ user: user._id, question: question._id, contest: contestId });
-  if (solution) {
-      res.json({ question, solution });
+  const solutions = await contestSolution.find({ user: user._id, question: question._id, contest: contestId });
+  if (solutions) {
+      res.json({ question, solutions });
       return;
   }
 

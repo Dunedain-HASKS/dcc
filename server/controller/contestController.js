@@ -1,16 +1,6 @@
-// import Pusher from 'pusher';
 import Contest from "../models/contestModel.js";
 import User from "../models/userModel.js";
 import ContestUser from "../models/contestUserModel.js";
-
-// const pusher = new Pusher({
-//     appId: process.env.PUSHER_APP_ID,
-//     key: process.env.PUSHER_KEY,
-//     secret: process.env.PUSHER_SECRET,
-//     cluster: process.env.PUSHER_CLUSTER,
-//     useTLS: true
-
-// });
 
 export async function createContest(req, res) {
   const { name, questions, startTime, endTime } = req.body;
@@ -20,8 +10,6 @@ export async function createContest(req, res) {
     startTime,
     endTime,
   });
-
-  // pusher.trigger('contests', 'update', { contest });
 
   res.status(201).json(contest);
 }

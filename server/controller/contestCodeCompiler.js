@@ -10,7 +10,7 @@ export async function submitQuestion(req, res) {
     const {contestId} = req.params;
     const username = req.headers.username;
     const user = await User.findOne({username});
-    const contestUser = await ContestUser.findOne({ user: user._id, contest: contestId });
+    const contestUser = await ContestUser.findOne({ userId: user._id, contestId });
     
     if (!user) {
       return res.status(404).send({ error: `User ${username} not found` });
@@ -87,6 +87,7 @@ export async function submitQuestion(req, res) {
         contest: contestId,
         language,
       };
+      
       await ContentSolution.create(newSolution);
   
       contestUser.solved.push(queId);

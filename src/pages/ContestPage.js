@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {  useNavigate } from 'react-router-dom';
-import Pusher from 'pusher-js';
+import { useNavigate } from 'react-router-dom';
 import './ContestPage.css';
 import baseURL from '../utils/baseURL';
 import axios from 'axios';
@@ -36,7 +35,7 @@ const ContestPage = () => {
     }, { current: [], upcoming: [], finished: [] });
 
     setContests(contests);
-    navigate(`/contest/${contestId}`);
+    navigate(`/contests/${contestId}`);
   } catch (error) {
     console.error("Error joining contest:", error);
   }
@@ -67,35 +66,6 @@ const ContestPage = () => {
 
     fetchContests();
 
-    const pusher = new Pusher('01a3b6138010bc2c4d34', {
-      cluster: 'ap2',
-    });
-
-    const channel = pusher.subscribe('contests');
-    channel.bind('update', (data) => {
-      const contest = data.contest;
-      setContests((prevContests) => {
-        const now = new Date();
-        const startTime = new Date(contest.startTime);
-        const endTime = new Date(contest.endTime);
-        const updatedContests = { ...prevContests };
-
-        if (endTime > now) {
-          if (startTime > now) {
-            updatedContests.upcoming.push(contest);
-          } else {
-            updatedContests.current.push(contest);
-          }
-        } else {
-          updatedContests.finished.push(contest);
-        }
-        return updatedContests;
-      });
-    });
-
-    return () => {
-      pusher.unsubscribe('contests');
-    };
   }, []);
 
   useEffect(() => {

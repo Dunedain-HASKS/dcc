@@ -13,7 +13,7 @@ router.route("/").post(createContest).get(getContests);
 router.route("/:id").get(getContestById);
 router.route("/:id/leaderboard").get(leaderboard);
 router.route('/add-participant').post(addParticipant);
-router.route("/:id/:queId").post(submitQuestion);
-router.route("/:id/:queId/run").post(runQuestion);
+router.route("/:contestId/:queId").post(submitQuestion);
+router.route("/:contestId/:queId/run").post(runQuestion);
 
 export default router;
