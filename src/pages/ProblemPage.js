@@ -8,6 +8,7 @@ import ProblemCompiler from '../components/ProblemCompiler';
 
 const ProblemPage = () => {
     
+    let t = 0;
     const questionId = useParams().id;
     const [problem, setProblem] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -54,8 +55,9 @@ const ProblemPage = () => {
                         <h3>Test Cases:</h3>
                         <ul>
                             {problem?.examples?.map((testcase, index) => (
-                                <li key={index}>
-                                    <strong>Testcase {index + 1}:</strong><br />
+                                <>
+                                {testcase.isSample && <li key={index}>
+                                    <strong>Testcase {++t}:</strong><br />
                                     <MDEditor.Markdown
                                         source={testcase.input}
                                         style={{
@@ -92,7 +94,8 @@ const ProblemPage = () => {
                                             />
                                         </>
                                     )}
-                                </li>
+                                </li>}
+                                </>
                             ))}
                         </ul>
                     </div>
