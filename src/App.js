@@ -1,3 +1,6 @@
+
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'; 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -7,6 +10,7 @@ import Compiler from './components/Compiler';
 import UserDashboard from './pages/UserDashboard';
 
 import './App.css';
+import Problems from "./pages/Problems";
 
 function App() {
     
@@ -19,8 +23,10 @@ function App() {
                     <Route path="/compiler" element={<Compiler />} />
                     <Route path="/add-problem" element={<AddProblem />} />
                     <Route path="/user-dashboard" element={<UserDashboard />} />
+                    <Route path="/problems" element={<Problems />} />
             </Routes>
             </Router>
+            <ToastContainer />
         </div>
     );
     

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import axios from 'axios';
 import './AddProblem.css';
+import { toast } from 'react-toastify';
 import baseURL from '../utils/baseURL';
 import Select from 'react-select';
 
@@ -36,7 +37,7 @@ const [difficulty, setDifficulty] = useState('easy');
       const newTestCases = testCases.filter((_, idx) => idx !== index);
       setTestCases(newTestCases);
     } else {
-      alert('At least one test case is required.');
+      toast.error('At least one test case is required');
     }
   };
 
@@ -62,14 +63,11 @@ const [difficulty, setDifficulty] = useState('easy');
       tags: selectedTags.map(tag => tag.value), // Extract values from selected tags
       difficulty
     };
-  
-    console.log(JSON.stringify(questionData, null, 2)); // Add this line to print the object
-  
+    
+
     try {
-      
-      await axios.post(`${baseURL}/api/question/new-question`, questionData);
-      alert('Question added successfully');
-      // Reset form
+      await axios.post(`${baseURL}/question/new-question`, questionData);
+      toast.success('Problem added successfully');
       setTitle('');
       setDescription('');
       setConstraints('');
@@ -78,7 +76,7 @@ const [difficulty, setDifficulty] = useState('easy');
       setDifficulty('easy');
     } catch (error) {
       console.error('Error adding question:', error);
-      alert('Failed to add question');
+      toast.error('Failed to add question');
     }
   };
   
@@ -86,7 +84,7 @@ const [difficulty, setDifficulty] = useState('easy');
   return (
     <div className="container add-question-page">
       <div className="problem-home-banner">
-        <h1>Add New Question</h1>
+        <h1>Add New Problem</h1>
       </div>
       <div className="problem-home-content">
         <form onSubmit={handleSubmit}>

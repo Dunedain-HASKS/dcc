@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { compile } from "../controller/codeCompiler.js";
+import { compile, submitQuestion } from "../controller/codeCompiler.js";
 
 const router = Router();
 
 router.route("/").post(compile);
+router.route("/submit/:queId").post(submitQuestion);
 
 export default router;
