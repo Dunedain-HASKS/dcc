@@ -1,5 +1,6 @@
 import Question from "../models/questionModel.js";
 import expressAsyncHandler from "express-async-handler";
+import Solution from "../models/solutionModel.js";
 
 const newQuestion = expressAsyncHandler(async (req, res) => {
   const { title, description, examples, constraints, difficulty, tags } = req.body;
@@ -37,6 +38,14 @@ const showQuestions = expressAsyncHandler(async (req, res) => {
 
 const showQuestion = expressAsyncHandler(async (req, res) => {
     const question = await Question.findById(req.params.id);
+    const user = req.user;
+
+    const solution = await Solution.findOne({ user: user._id, question: question._id });
+    if (solution) {
+        res.json({ question, solution });
+        return;
+    }
+
     if (question) {
         res.json(question);
     } else {
