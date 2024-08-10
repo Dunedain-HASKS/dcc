@@ -68,3 +68,42 @@
     width: 100%;
     height: 100%;
 }
+
+
+.problem-details::-webkit-scrollbar {
+    width: 15px;
+}
+
+.problem-details::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+.problem-details::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+}
+
+.problem-details .list-group-item {
+    background-color: #B3C8E4;
+    border: 0 #fff;
+}
+
+.compiler-section::-webkit-scrollbar {
+    width: 15px;
+}
+
+.compiler-section::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+.compiler-section::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 10px;
+}
+
+.compiler-section .list-group-item {
+    background-color: #B3C8E4;
+    border: 0 #fff;
+}

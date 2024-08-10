@@ -32,11 +32,23 @@ int main() {
     const runSamppleTestCases = async () => {
         setLoading(true);
         try {
-            const response = await Axios.post(`${baseURL}/question/`, {
+
+            toast.info('Submitting your code...');
+
+            const response = await Axios.post(`${baseURL}/compiler/run-sample/${questionId}`, {
                 code: userCode,
-                language: userLang,
+                language: userLang
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'username': localStorage.getItem('userName'),
+                }
             });
-            console.log(response.data);
+            if (response.data.error)
+                toast.error(response.data.error);
+                
+            else
+                toast.success(response.data.message);
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -47,6 +59,9 @@ int main() {
     const submitCode = async () => {
         setLoading(true);
         try {
+
+            toast.info('Submitting your code...');
+
             const response = await Axios.post(`${baseURL}/compiler/submit/${questionId}`, {
                 code: userCode,
                 language: userLang
