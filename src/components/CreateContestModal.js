@@ -1,4 +1,3 @@
-// CreateContestModal.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import baseURL from '../utils/baseURL';
@@ -66,8 +65,14 @@ const CreateContestModal = ({ setShowModal, onCreateContest }) => {
     }
   };
 
+  const handleCloseModal = (e) => {
+    if (e.target.className === 'modal') {
+      setShowModal(false);
+    }
+  };
+
   return (
-    <div className="modal">
+    <div className="modal" onClick={handleCloseModal}>
       <div className="modal-content">
         <h3>Create Contest</h3>
         <input
@@ -95,7 +100,7 @@ const CreateContestModal = ({ setShowModal, onCreateContest }) => {
             value={searchQuery}
             onChange={handleSearch}
           />
-          <ul className="question-list">
+          {/* <ul className="question-list">
             {filteredQuestions.map((question) => (
               <li key={question._id}>
                 <input
@@ -106,7 +111,19 @@ const CreateContestModal = ({ setShowModal, onCreateContest }) => {
                 {question.title} - {question.difficulty}
               </li>
             ))}
-          </ul>
+          </ul> */}
+           <ul className="question-list">
+        {filteredQuestions.map((question) => (
+          <li key={question._id}>
+            <input
+              type="checkbox"
+              checked={selectedQuestions.includes(question._id)}
+              onChange={() => handleQuestionSelect(question._id)}
+            />
+            {question.title} - {question.difficulty}
+          </li>
+        ))}
+      </ul>
         </div>
         <button onClick={handleCreateContest}>Create</button>
         <button onClick={() => setShowModal(false)}>Cancel</button>
@@ -116,3 +133,4 @@ const CreateContestModal = ({ setShowModal, onCreateContest }) => {
 };
 
 export default CreateContestModal;
+
