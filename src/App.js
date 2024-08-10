@@ -14,6 +14,7 @@ import ContestDetails from './pages/ContestDetails';
 import './App.css';
 import Problems from "./pages/Problems";
 import ProblemPage from "./pages/ProblemPage";
+import ContestProblemPage from "./pages/ContestProblemPage";
 
 function App() {
     
@@ -28,8 +29,9 @@ function App() {
                     <Route path="/user-dashboard" element={<UserDashboard />} />
                     <Route path="/problems" element={<Problems />} />
                     <Route path="/contests" element={<ContestPage />} />
-                    <Route path="/contest/:id" element={<ContestDetails />} />
+                    <Route path="/contests/:id" element={<ContestDetails />} />
                     <Route path='/problems/:id' element={<ProblemPage />} />
+                    <Route path='/contests/:contestId/:queId' element={<ContestProblemPage />} />
             </Routes>
             </Router>
             <ToastContainer />

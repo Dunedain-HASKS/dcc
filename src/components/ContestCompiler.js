@@ -8,9 +8,10 @@ import CompilerHeader from './CompilerHeader';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const ProblemCompiler = () => {
+const ContestCompiler = () => {
 
-    const questionId = useParams().id;
+    const questionId = useParams().queId;
+    const contestId = useParams().contestId;
 
     const cppBoilerPlate = `#include<bits/stdc++.h>
 using namespace std;
@@ -35,7 +36,7 @@ int main() {
 
             toast.info('Submitting your code...');
 
-            const response = await Axios.post(`${baseURL}/compiler/run-sample/${questionId}`, {
+            const response = await Axios.post(`${baseURL}/contest/${contestId}/${questionId}/run`, {
                 code: userCode,
                 language: userLang
             }, {
@@ -62,7 +63,7 @@ int main() {
 
             toast.info('Submitting your code...');
 
-            const response = await Axios.post(`${baseURL}/compiler/submit/${questionId}`, {
+            const response = await Axios.post(`${baseURL}/contest/${contestId}/${questionId}`, {
                 code: userCode,
                 language: userLang
             }, {
@@ -91,7 +92,7 @@ int main() {
         const fetchProblem = async () => {
             try {
                 setLoading(true);
-                const response = await Axios.get(`${baseURL}/question/${questionId}`, {
+                const response = await Axios.get(`${baseURL}/question/${contestId}/${questionId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'username': localStorage.getItem('userName'),
@@ -121,7 +122,7 @@ int main() {
         };
 
         fetchProblem();
-    }, [questionId, cppBoilerPlate, username, userLang]);
+    }, [questionId, cppBoilerPlate, username, userLang, contestId]);
 
     return (
         <div className="compiler">
@@ -155,4 +156,4 @@ int main() {
     );
 }
 
-export default ProblemCompiler;
+export default ContestCompiler;

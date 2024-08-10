@@ -43,9 +43,9 @@ const showQuestion = expressAsyncHandler(async (req, res) => {
     const username = req.headers.username;
     const user = await User.findOne({ username });
 
-    const solution = await Solution.findOne({ user: user._id, question: question._id });
-    if (solution) {
-        res.json({ question, solution });
+    const solutions = await Solution.find({ user: user._id, question: question._id });
+    if (solutions.length > 0) {
+        res.json({ question, solutions });
         return;
     }
 
