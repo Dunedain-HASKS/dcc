@@ -1,7 +1,7 @@
-import contestUserModel from "../models/contestUserModel";
+import contestUserModel from "../models/contestUserModel.js";
 import expressAsyncHandler from "express-async-handler";
-import Contest from "../models/contestModel";
-import User from "../models/userModel";
+import Contest from "../models/contestModel.js";
+// import User from "../models/userModel";
 
 const leaderboard = expressAsyncHandler(async (req, res) => {
     const contest = await Contest.findById(req.params.id);

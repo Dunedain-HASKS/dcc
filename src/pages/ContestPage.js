@@ -1,14 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import Pusher from 'pusher-js';
 import './ContestPage.css';
 import baseURL from '../utils/baseURL';
 import axios from 'axios';
 import CreateContestModal from '../components/CreateContestModal';
 
+
 const ContestPage = () => {
   const [contests, setContests] = useState({ current: [], upcoming: [], finished: [] });
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const handleJoinContest = async (contestId) => {
+  try {
+    const userId = localStorage.getItem('userName'); // Replace with actual user ID logic
+    
+    await axios.post(`${baseURL}/contest/add-participant`, { contestId, userId });
+    
+    // Optionally, refetch contests to update UI
+    const response = await axios.get(`${baseURL}/contest`);
+    const now = new Date();
+    const contests = response.data.reduce((acc, contest) => {
+      const startTime = new Date(contest.startTime);
+      const endTime = new Date(contest.endTime);
+      if (endTime > now) {
+        if (startTime > now) {
+          acc.upcoming.push(contest);
+        } else {
+          acc.current.push(contest);
+        }
+      } else {
+        acc.finished.push(contest);
+      }
+      return acc;
+    }, { current: [], upcoming: [], finished: [] });
+
+    setContests(contests);
+    navigate(`/contest/${contestId}`);
+  } catch (error) {
+    console.error("Error joining contest:", error);
+  }
+};
+
 
   useEffect(() => {
     const fetchContests = async () => {
@@ -99,7 +132,7 @@ const ContestPage = () => {
               {new Date(contest.startTime).toLocaleString()} -{' '}
               {new Date(contest.endTime).toLocaleString()}
             </p>
-            <Link to={`/contest/${contest._id}`}>Join Contest </Link>
+            <button   onClick={() => handleJoinContest(contest._id)}>Join Contest </button>
           </div>
         ))
       )}
@@ -134,6 +167,8 @@ const ContestPage = () => {
 
     fetchContests();
   };
+
+  
 
   return (
     <div className="contest-page">

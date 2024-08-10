@@ -1,14 +1,16 @@
 
-import Pusher from 'pusher';
+// import Pusher from 'pusher';
 import Contest from '../models/contestModel.js';
-const pusher = new Pusher({
-  appId: process.env.APP_ID,
-  key: process.env.KEY,
-  secret: process.env.SECRET,
-  cluster: process.env.CLUSTER,
-  useTLS: true
+import User from '../models/userModel.js';
 
-});
+// const pusher = new Pusher({
+//     appId: process.env.PUSHER_APP_ID,
+//     key: process.env.PUSHER_KEY,
+//     secret: process.env.PUSHER_SECRET,
+//     cluster: process.env.PUSHER_CLUSTER,
+//     useTLS: true
+
+// });
 
 
 
@@ -22,7 +24,7 @@ export async function createContest(req, res)  {
         endTime,
     });
     
-    pusher.trigger('contests', 'update', { contest });
+    // pusher.trigger('contests', 'update', { contest });
 
     res.status(201).json(contest);
 };
@@ -41,4 +43,29 @@ export async function getContestById (req, res)  {
         .populate('participants', 'username')
         .populate('questions', 'title');
     res.json(contest);
+};
+
+
+export async function addParticipant (req, res)  {
+    const { contestId, userId } = req.body;
+    const user   = await User.findOne({username: userId});
+    console.log(user);
+    console.log(req.body);
+    const contest = await Contest.findById(contestId);
+    if (contest) {
+        if(contest.participants.includes(user._id)) {
+            res.status(200).json(contest);
+            return ;
+        }
+        contest.participants.push(user._id);
+        await contest.save();
+        
+        // // Trigger Pusher update
+        // pusher.trigger('contests', 'update', { contest });
+
+
+        res.status(200).json(contest);
+    } else {
+        res.status(404).json({ message: 'Contest not found' });
+    }
 };

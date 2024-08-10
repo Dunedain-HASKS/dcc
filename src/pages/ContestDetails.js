@@ -3,12 +3,22 @@ import { useParams } from 'react-router-dom';
 import './ContestDetails.css';
 import axios from 'axios';
 import baseURL from '../utils/baseURL';
-
+import { useNavigate, Link } from 'react-router-dom';
 const ContestDetails = () => {
   const { id } = useParams();
   const [contest, setContest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleContestClick = (contestId) => {
+    // Perform any additional tasks if needed
+
+    // Navigate to the contest page
+    navigate(`/contest/${contestId}`);
+  };
+
 
   useEffect(() => {
     const fetchContestDetails = async () => {
@@ -25,9 +35,23 @@ const ContestDetails = () => {
     fetchContestDetails();
   }, [id]);
 
+  useEffect(() => {
+    const learBoard = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/contest/${id}/leaderboard`);
+        console.log(response);
+      } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+      }
+    };
+    learBoard();
+  }, [id]);
+
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
+ 
   return (
     <div className="contest-details">
       <div className="contest-info">
@@ -39,20 +63,22 @@ const ContestDetails = () => {
       <div className="questions-list">
         <h3>Questions</h3>
         <ul>
-          {contest.questions.map((question) => (
-            <li key={question._id}>{question.title}</li>
-          ))}
-        </ul>
+            {contest.questions.map((question) => (
+              <li key={question._id}>
+                <Link to={`/problems/${question._id}`}>{question.title}</Link>
+              </li>
+            ))}
+          </ul>
       </div>
       <div className="leaderboard">
         <h3>Leaderboard</h3>
-        <ul>
-          {contest.leaderboard && contest.leaderboard.map((entry) => (
-            <li key={entry.rank}>
-              {entry.rank}. {entry.user.username} - {entry.score} points
+        {/* <ul>
+          {contest.leaderboard.map((user, index) => (
+            <li key={user.username}>
+              {index + 1}. {user.username} - {user.solved} questions solved
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     </div>
   );
