@@ -77,6 +77,21 @@ const ProblemPage = () => {
                                             backgroundColor: "inherit",
                                         }}
                                     />
+                                    {testcase?.explanation && (
+                                        <>
+                                            <strong>Explanation:</strong><br />
+                                            <MDEditor.Markdown
+                                                source={testcase.explanation}
+                                                style={{
+                                                    fontSize: "18px",
+                                                    display: "block",
+                                                    margin: "auto auto",
+                                                    padding: "2rem",
+                                                    backgroundColor: "inherit",
+                                                }}
+                                            />
+                                        </>
+                                    )}
                                 </li>
                             ))}
                         </ul>

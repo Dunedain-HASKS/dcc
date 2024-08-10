@@ -47,6 +47,9 @@ int main() {
     const submitCode = async () => {
         setLoading(true);
         try {
+
+            toast.info('Submitting your code...');
+
             const response = await Axios.post(`${baseURL}/compiler/submit/${questionId}`, {
                 code: userCode,
                 language: userLang
