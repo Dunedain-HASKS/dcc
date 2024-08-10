@@ -3,12 +3,29 @@ import MDEditor from '@uiw/react-md-editor';
 import axios from 'axios';
 import './AddProblem.css';
 import baseURL from '../utils/baseURL';
+import Select from 'react-select';
+
 
 const AddProblem = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [constraints, setConstraints] = useState('');
   const [testCases, setTestCases] = useState([{ input: '', output: '', explanation: '', isSample: false, showExplanation: false }]);
+  const tagOptions = [
+    { value: 'array', label: 'Array' },
+    { value: 'dp', label: 'Dynamic Programming' },
+    { value: 'linkedlist', label: 'Linked List' },
+    { value: 'string', label: 'String' },
+    // Add more tags as needed
+  ];
+  const [selectedTags, setSelectedTags] = useState([]);
+  
+
+
+const [difficulty, setDifficulty] = useState('easy');
+
+
+
 
   const handleAddTestCase = () => {
     setTestCases([...testCases, { input: '', output: '', explanation: '', isSample: false, showExplanation: false }]);
@@ -41,23 +58,30 @@ const AddProblem = () => {
       title,
       description,
       constraints,
-      examples: testCases
+      testCases,
+      tags: selectedTags.map(tag => tag.value), // Extract values from selected tags
+      difficulty
     };
-    console.log(JSON.stringify(questionData, null, 2));
-
+  
+    console.log(JSON.stringify(questionData, null, 2)); // Add this line to print the object
+  
     try {
+      
       await axios.post(`${baseURL}/api/question/new-question`, questionData);
       alert('Question added successfully');
       // Reset form
       setTitle('');
       setDescription('');
       setConstraints('');
-      setTestCases([{ input: '', output: '', explanation: '', isSample: false, showExplanation: false }]);
+      setTestCases([{ input: '', output: '', explanation: '', isHidden: false, showExplanation: false }]);
+      setSelectedTags([]);
+      setDifficulty('easy');
     } catch (error) {
       console.error('Error adding question:', error);
       alert('Failed to add question');
     }
   };
+  
 
   return (
     <div className="container add-question-page">
@@ -84,13 +108,8 @@ const AddProblem = () => {
               onChange={setDescription}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="constraints">Constraints:</label>
-            <MDEditor
-              value={constraints}
-              onChange={setConstraints}
-            />
-          </div>
+          
+         
           <div className="form-group">
             <label>Test Cases:</label>
             {testCases.map((testCase, index) => (
@@ -144,6 +163,38 @@ const AddProblem = () => {
             ))}
             <button type="button" className="btn cta-button" onClick={handleAddTestCase}>Add Test Case</button>
           </div>
+          <div className="form-group">
+            <label htmlFor="constraints">Constraints:</label>
+            <MDEditor
+              value={constraints}
+              onChange={setConstraints}
+            />
+          </div>
+          
+  <div className="form-group">
+  <label htmlFor="tags">Tags:</label>
+  <Select
+    id="tags"
+    options={tagOptions}
+    isMulti
+    value={selectedTags}
+    onChange={setSelectedTags}
+    placeholder="Select tags"
+  />
+</div>
+
+<div className="form-group">
+  <label htmlFor="difficulty">Difficulty:</label>
+  <select 
+    id="difficulty" 
+    value={difficulty} 
+    onChange={(e) => setDifficulty(e.target.value)}
+  >
+    <option value="easy">Easy</option>
+    <option value="medium">Medium</option>
+    <option value="hard">Hard</option>
+  </select>
+</div>
           <button  type="submit" className="btn cta-button">Submit</button>
         </form>
       </div>
