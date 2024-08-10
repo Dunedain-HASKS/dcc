@@ -17,13 +17,12 @@ const AddProblem = () => {
     { value: 'dp', label: 'Dynamic Programming' },
     { value: 'linkedlist', label: 'Linked List' },
     { value: 'string', label: 'String' },
-    // Add more tags as needed
   ];
   const [selectedTags, setSelectedTags] = useState([]);
   
 
 
-const [difficulty, setDifficulty] = useState('easy');
+const [difficulty, setDifficulty] = useState('Easy');
 
 
 
@@ -60,7 +59,7 @@ const [difficulty, setDifficulty] = useState('easy');
       description,
       constraints,
       testCases,
-      tags: selectedTags.map(tag => tag.value), // Extract values from selected tags
+      tags: selectedTags.map(tag => tag.value),
       difficulty
     };
     
@@ -188,9 +187,9 @@ const [difficulty, setDifficulty] = useState('easy');
     value={difficulty} 
     onChange={(e) => setDifficulty(e.target.value)}
   >
-    <option value="easy">Easy</option>
-    <option value="medium">Medium</option>
-    <option value="hard">Hard</option>
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
   </select>
 </div>
           <button  type="submit" className="btn cta-button">Submit</button>
