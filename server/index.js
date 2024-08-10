@@ -3,6 +3,7 @@ import Axios from "axios";
 import express, { json } from "express";
 import compilerroutes from "./routes/codeCompileRoute.js";
 import questionroutes from "./routes/questionRoute.js";
+import userroutes from "./routes/userRoute.js";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 
@@ -16,6 +17,8 @@ app.use(json());
 
 app.use('/api/compiler', compilerroutes);
 app.use('/api/question', questionroutes);
+app.use('/api/user', userroutes);
+
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

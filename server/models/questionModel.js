@@ -35,7 +35,15 @@ const questionSchema = new Schema({
     constraints: {
         type: String,
         // required: true
-    }
+    },
+    difficulty: {
+        type: String,
+        required: true
+    },
+    tags: [{
+        type: String,
+        required: true
+    }],
 });
 
 export default model('Question', questionSchema);

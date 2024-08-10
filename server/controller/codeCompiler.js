@@ -50,6 +50,7 @@ export function compile(req, res) {
 export async function submitQuestion(req, res) {
   const { code, language } = req.body;
   const {queId} = req.params;
+  const user = req.user;
 
   const languageMap = {
     c: { language: "c", version: "10.2.0" },
@@ -106,9 +107,25 @@ export async function submitQuestion(req, res) {
     for (let i = 0; i < testCases.length; i++) {
       const result = await checkTestCase(testCases[i]);
       if (!result.success) {
+        user.wrongSub += 1;
+        await user.save();
         return res.status(400).send({ error: result.error });
       }
     }
+
+    user.rightSub += 1;
+    await user.save();
+
+    const Solution = {
+      code,
+      user: user._id,
+      question: queId,
+    };
+    await Solution.create(Solution);
+
+    user.solvedQuestions.push(queId);
+    await user.save();
+    
     res.status(200).send({ message: "All test cases passed successfully!" });
   };
 

@@ -2,7 +2,7 @@ import Question from "../models/questionModel.js";
 import expressAsyncHandler from "express-async-handler";
 
 const newQuestion = expressAsyncHandler(async (req, res) => {
-  const { title, description, examples, constraints } = req.body;
+  const { title, description, examples, constraints, difficulty, tags } = req.body;
 
   const questionExist = await Question.findOne({ title });
 
@@ -16,6 +16,8 @@ const newQuestion = expressAsyncHandler(async (req, res) => {
     description,
     examples,
     constraints,
+    difficulty,
+    tags,
   });
 
   if (newQuestion) {
