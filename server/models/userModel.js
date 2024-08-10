@@ -8,13 +8,15 @@ const userSchema = new Schema({
     solvedQuestions: [{
         type: Schema.Types.ObjectId, ref: 'Question'
     }],
-    rightSub: [{
+    rightSub: {
         type: Number,
-        // required: true
-    }],
+        // required: true,
+        default: 0
+    },
     wrongSub: {
         type: Number,
-        // required: true
+        // required: true,
+        default: 0
     }
 });
 

@@ -58,11 +58,10 @@ const [difficulty, setDifficulty] = useState('Easy');
       title,
       description,
       constraints,
-      testCases,
+      examples: testCases,
       tags: selectedTags.map(tag => tag.value),
       difficulty
     };
-    
 
     try {
       await axios.post(`${baseURL}/question/new-question`, questionData);
@@ -70,7 +69,7 @@ const [difficulty, setDifficulty] = useState('Easy');
       setTitle('');
       setDescription('');
       setConstraints('');
-      setTestCases([{ input: '', output: '', explanation: '', isHidden: false, showExplanation: false }]);
+      setTestCases([{ input: '', output: '', explanation: '', isSample: false, showExplanation: false }]);
       setSelectedTags([]);
       setDifficulty('easy');
     } catch (error) {

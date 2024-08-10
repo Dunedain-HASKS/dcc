@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import baseURL from '../utils/baseURL';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
 
-    window.onload = function() {
+    window.onload = async function() {
         
         const name = prompt("Enter your name:");
         
@@ -12,8 +15,14 @@ const Navbar = () => {
             window.location.reload();
             return;
         }
-
-        alert("Welcome, " + name + "! Let's start coding!");
+        try {
+            await axios.post(`${baseURL}/user/login`, {name});
+            toast.success('Logged in successfully');
+          }
+          catch (error) {
+            console.log(error);
+            toast.error('Failed to log in');
+          }
         localStorage.setItem('userName',name);
     }
 

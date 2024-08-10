@@ -1,6 +1,8 @@
 import Question from "../models/questionModel.js";
 import expressAsyncHandler from "express-async-handler";
 import Solution from "../models/solutionModel.js";
+import User from "../models/userModel.js";
+
 
 const newQuestion = expressAsyncHandler(async (req, res) => {
   const { title, description, examples, constraints, difficulty, tags } = req.body;
@@ -38,7 +40,8 @@ const showQuestions = expressAsyncHandler(async (req, res) => {
 
 const showQuestion = expressAsyncHandler(async (req, res) => {
     const question = await Question.findById(req.params.id);
-    const user = req.user;
+    const username = req.headers.username;
+    const user = await User.findOne({ username });
 
     const solution = await Solution.findOne({ user: user._id, question: question._id });
     if (solution) {
@@ -47,7 +50,7 @@ const showQuestion = expressAsyncHandler(async (req, res) => {
     }
 
     if (question) {
-        res.json(question);
+        res.json({question});
     } else {
         res.status(404).json({ message: 'Question not found' });
     }

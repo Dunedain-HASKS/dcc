@@ -13,6 +13,7 @@ import ContestDetails from './pages/ContestDetails';
 
 import './App.css';
 import Problems from "./pages/Problems";
+import ProblemPage from "./pages/ProblemPage";
 
 function App() {
     
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/problems" element={<Problems />} />
                     <Route path="/contests" element={<ContestPage />} />
                     <Route path="/contest/:id" element={<ContestDetails />} />
+                    <Route path='/problems/:id' element={<ProblemPage />} />
             </Routes>
             </Router>
             <ToastContainer />

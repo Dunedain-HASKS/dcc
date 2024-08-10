@@ -1,13 +1,13 @@
 import User from "../models/userModel.js";
 
 export async function registerUser(req, res) {
-  const { username } = req.body;
+  const { name: username } = req.body;
 
   const userExist = await User.findOne({ username });
 
   if (userExist) {
-    res.status(403);
-    throw new Error("User already exists");
+    res.json(userExist);
+    return;
   }
 
   const newUser = await User.create({
