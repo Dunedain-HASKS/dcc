@@ -1,5 +1,4 @@
 import cors from "cors";
-import Axios from "axios";
 import express, { json } from "express";
 import compilerroutes from "./routes/codeCompileRoute.js";
 import questionroutes from "./routes/questionRoute.js";

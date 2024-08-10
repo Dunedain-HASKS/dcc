@@ -97,7 +97,7 @@
   .run-btn {
     position: absolute;
     bottom: 10px;
-    right: 18px;
+    right: 118px;
     width: 80px;
     height: 40px;
     font-size: 22px;
@@ -110,5 +110,24 @@
   }
   
   .run-btn:active {
+    background-color: #649b6b;
+  }
+
+  .submit-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 18px;
+    width: 90px;
+    height: 40px;
+    font-size: 22px;
+    font-weight: bold;
+    background-color: #3fec53;
+    border: none;
+    border-radius: 4px;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+  
+  .submit-btn:active {
     background-color: #649b6b;
   }

@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import baseURL from '../utils/baseURL';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
 
@@ -13,9 +16,8 @@ const Navbar = () => {
             return;
         }
         try {
-            await axios.post(`${baseURL}/user/login`, name);
+            await axios.post(`${baseURL}/user/login`, {name});
             toast.success('Logged in successfully');
-            alert("Welcome, " + name + "! Let's start coding!");
           }
           catch (error) {
             console.log(error);

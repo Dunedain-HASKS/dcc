@@ -1,5 +1,7 @@
 import Axios from "axios";
 import  Question  from "../models/questionModel.js";
+import  Solution  from "../models/solutionModel.js";
+import  User  from "../models/userModel.js";
 
 export function compile(req, res) {
   const { code, language, input } = req.body;
@@ -50,7 +52,12 @@ export function compile(req, res) {
 export async function submitQuestion(req, res) {
   const { code, language } = req.body;
   const {queId} = req.params;
-  const user = req.user;
+  const username = req.headers.username;
+  const user = await User.findOne({username});
+  
+  if (!user) {
+    return res.status(404).send({ error: `User ${username} not found` });
+  }
 
   const languageMap = {
     c: { language: "c", version: "10.2.0" },
@@ -109,19 +116,19 @@ export async function submitQuestion(req, res) {
       if (!result.success) {
         user.wrongSub += 1;
         await user.save();
-        return res.status(400).send({ error: result.error });
+        return res.send({ error: result.error });
       }
     }
 
     user.rightSub += 1;
     await user.save();
 
-    const Solution = {
+    const newSolution = {
       code,
       user: user._id,
       question: queId,
     };
-    await Solution.create(Solution);
+    await Solution.create(newSolution);
 
     user.solvedQuestions.push(queId);
     await user.save();
