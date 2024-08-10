@@ -2,6 +2,7 @@ import Question from "../models/questionModel.js";
 import expressAsyncHandler from "express-async-handler";
 import Solution from "../models/solutionModel.js";
 import User from "../models/userModel.js";
+import contestSolution from "../models/contestSolution.js";
 
 
 const newQuestion = expressAsyncHandler(async (req, res) => {
@@ -57,4 +58,24 @@ const showQuestion = expressAsyncHandler(async (req, res) => {
 }
 );
 
-export { newQuestion, showQuestions, showQuestion };
+const contestShowQuestion = expressAsyncHandler(async (req, res) => {
+  const contestId = req.params.contestId;
+  const question = await Question.findById(req.params.id);
+  const username = req.headers.username;
+  const user = await User.findOne({ username });
+
+  const solution = await contestSolution.findOne({ user: user._id, question: question._id, contest: contestId });
+  if (solution) {
+      res.json({ question, solution });
+      return;
+  }
+
+  if (question) {
+      res.json({question});
+  } else {
+      res.status(404).json({ message: 'Question not found' });
+  }
+}
+);
+
+export { newQuestion, showQuestions, showQuestion, contestShowQuestion };
