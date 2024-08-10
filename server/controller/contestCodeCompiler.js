@@ -88,8 +88,11 @@ export async function submitQuestion(req, res) {
         language,
       };
       
+      if(ContentSolution.findOne({user: user._id, question: queId, contest: contestId})){
+        return res.status(400).send({ error: "You have already submitted the solution for this question" });
+      }
       await ContentSolution.create(newSolution);
-      
+
       if(!contestUser.solved.includes(queId)){
         contestUser.solved.push(queId);
         await contestUser.save();
