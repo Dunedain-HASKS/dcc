@@ -13,6 +13,10 @@ const solutionSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'Question',
         required: true
     },
+    language: {
+        type: String,
+        required: true
+    },
 });
 
 export default model('Solution', solutionSchema);

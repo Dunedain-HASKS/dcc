@@ -1,5 +1,4 @@
 import contestUserModel from "../models/contestUserModel.js";
-import contestUserModel from "../models/contestUserModel.js";
 import expressAsyncHandler from "express-async-handler";
 import Contest from "../models/contestModel.js";
 

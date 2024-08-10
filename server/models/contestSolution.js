@@ -16,6 +16,10 @@ const contestSolutionSchema = new Schema({
     question: {
         type: Schema.Types.ObjectId, ref: 'Question',
         required: true
+    },
+    language: {
+        type: String,
+        required: true
     }, 
 });
 
