@@ -1,12 +1,16 @@
 import { Schema, model } from 'mongoose';
 
-const solutionSchema = new Schema({
+const contestSolutionSchema = new Schema({
     code: {
         type: String,
         required: true
     },
     user: {
         type: Schema.Types.ObjectId, ref: 'User',
+        required: true
+    },
+    contest: {
+        type: Schema.Types.ObjectId, ref: 'Contest',
         required: true
     },
     question: {
@@ -16,7 +20,7 @@ const solutionSchema = new Schema({
     language: {
         type: String,
         required: true
-    },
+    }, 
 });
 
-export default model('Solution', solutionSchema);
+export default model('ContestSolution', contestSolutionSchema);
