@@ -12,12 +12,25 @@ const ProblemCompiler = () => {
 
     const questionId = useParams().id;
 
+    const cBoilerPlate = `#include<stdio.h>
+
+int main() {
+    // your code goes here
+    return 0;
+}`;
+
     const cppBoilerPlate = `#include<bits/stdc++.h>
 using namespace std;
 
 int main() {
     // your code goes here
     return 0;
+}`;
+
+    const javaBoilerPlate = `class Main {
+    public static void main(String[] args) {
+        // your code goes here
+    }
 }`;
     const [userCode, setUserCode] = useState(cppBoilerPlate);
     const [userLang, setUserLang] = useState("cpp");
@@ -111,7 +124,16 @@ int main() {
                 }
 
                 else
-                    setUserCode(cppBoilerPlate);
+                {
+                    if (userLang === 'cpp')
+                        setUserCode(cppBoilerPlate);
+                    else if (userLang === 'java')
+                        setUserCode(javaBoilerPlate);
+                    else if (userLang === 'python')
+                        setUserCode('#your code goes here');
+                    else
+                        setUserCode(cBoilerPlate);
+                }
 
                 setLoading(false);
             } catch (error) {
@@ -121,7 +143,7 @@ int main() {
         };
 
         fetchProblem();
-    }, [questionId, cppBoilerPlate, username, userLang]);
+    }, [questionId, cppBoilerPlate, username, userLang, javaBoilerPlate, cBoilerPlate]);
 
     return (
         <div className="compiler">
