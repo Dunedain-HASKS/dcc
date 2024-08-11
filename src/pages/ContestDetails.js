@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import './ContestDetails.css';
 import axios from 'axios';
 import baseURL from '../utils/baseURL';
-import { useNavigate, Link } from 'react-router-dom';
 
 const ContestDetails = () => {
   const { id } = useParams();
   const [contest, setContest] = useState(null);
+  const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContestDetails = async () => {
@@ -25,15 +27,12 @@ const ContestDetails = () => {
 
     fetchContestDetails();
   }, [id]);
-  
-  const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
         const response = await axios.get(`${baseURL}/contest/${id}/leaderboard`);
         setLeaderboard(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching leaderboard:', error);
       }
@@ -42,11 +41,9 @@ const ContestDetails = () => {
     fetchLeaderboard();
   }, [id]);
 
-
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
- 
   return (
     <div className="contest-details">
       <div className="contest-info">
@@ -55,24 +52,25 @@ const ContestDetails = () => {
         <p>End Time: {new Date(contest.endTime).toLocaleString()}</p>
         <p>Participants: {contest.participants.length}</p>
       </div>
-      <div className="questions-list">
-        <h3>Questions</h3>
-        <ul>
+      <div className="section-container">
+        <div className="questions-list">
+          <h3>Questions</h3>
+          <ul>
             {contest.questions.map((question) => (
               <li key={question._id}>
-                <Link to={`/contests/${id}/${question._id}`}>{question.title}</Link>
+                <Link to={`/problems/${question._id}`}>{question.title}</Link>
               </li>
             ))}
           </ul>
-      </div>
-      <div className="leaderboard">
-        <h3>Leaderboard</h3>
-        {leaderboard.length > 0 ? (
+        </div>
+        <div className="leaderboard">
+          <h3>Leaderboard</h3>
+          {leaderboard.length > 0 ? (
             <ul>
               {leaderboard.map((user, index) => (
                 <li key={user.username}>
                   <span>{index + 1}. </span>
-                  <span>{user.username}</span>
+                  <span>{user.username} </span>
                   <span>solve : {user.solved}</span>
                 </li>
               ))}
@@ -80,11 +78,10 @@ const ContestDetails = () => {
           ) : (
             <p>No participants have solved any questions yet.</p>
           )}
+        </div>
       </div>
     </div>
   );
 };
 
 export default ContestDetails;
-
-

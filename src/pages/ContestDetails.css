@@ -2,7 +2,7 @@
   font-family: 'Consolas', 'Arial', sans-serif;
   color: #ecf0f1;
   padding: 2rem;
-  background: linear-gradient(to right, #6a82fb, #fc5c7d);
+  background: linear-gradient(to right, #232526, #414345);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@
 .section-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 80%;
   max-width: 1200px;
   gap: 2rem;
 }
