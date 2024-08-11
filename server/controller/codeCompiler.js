@@ -190,7 +190,9 @@ export async function runQuestion(req, res) {
       const response = await Axios(config);
       const userOutput = response.data.run.output.trim(); // Trim to handle extra newlines
       const expectedOutput = testCase.output.trim();
-
+      if(response.data.compile.stderr) {
+        return { success: false, error: response.data.compile.stderr };
+      }
       if (userOutput !== expectedOutput) {
         return { success: false, error: `Test case failed for input: ${testCase.input}. Expected: ${expectedOutput}, but got: ${userOutput}` };
       }
