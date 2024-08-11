@@ -98,6 +98,18 @@ const ProblemPage = () => {
                                 </>
                             ))}
                         </ul>
+
+                        {problem?.constraints && (<><h3>Constraints:</h3>
+                        <MDEditor.Markdown
+                            source={problem?.constraints}
+                            style={{
+                                fontSize: "18px",
+                                display: "block",
+                                margin: "auto auto",
+                                padding: "2rem",
+                                backgroundColor: "inherit",
+                            }}
+                        /></>)}
                     </div>
 
                     <div className="compiler-section">
