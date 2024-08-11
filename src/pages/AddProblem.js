@@ -17,7 +17,7 @@ const AddProblem = () => {
     { value: 'dp', label: 'Dynamic Programming' },
     { value: 'linkedlist', label: 'Linked List' },
     { value: 'string', label: 'String' },
-  ];
+  ]; 
   const [selectedTags, setSelectedTags] = useState([]);
   
 
@@ -89,6 +89,7 @@ const [difficulty, setDifficulty] = useState('Easy');
           <div className="form-group">
             <label htmlFor="title">Title:</label>
             <input
+            style={{ width: '90%' }}
               type="text"
               id="title"
               className="form-control"
@@ -113,6 +114,7 @@ const [difficulty, setDifficulty] = useState('Easy');
                 <div className="form-group">
                   <label htmlFor={`input-${index}`}>Input:</label>
                   <textarea
+                  style={{ width: '90%' }}
                     id={`input-${index}`}
                     className="form-control"
                     value={testCase.input}
@@ -121,8 +123,9 @@ const [difficulty, setDifficulty] = useState('Easy');
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor={`output-${index}`}>Output:</label>
+                  <label htmlFor={`output-${index}`}  >Output:</label>
                   <textarea
+                    style={{ width: '90%' }}
                     id={`output-${index}`}
                     className="form-control"
                     value={testCase.output}
@@ -169,7 +172,7 @@ const [difficulty, setDifficulty] = useState('Easy');
           
   <div className="form-group">
   <label htmlFor="tags">Tags:</label>
-  <Select
+  <Select 
     id="tags"
     options={tagOptions}
     isMulti
