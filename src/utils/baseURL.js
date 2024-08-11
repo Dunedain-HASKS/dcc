@@ -1,2 +1,2 @@
-const baseURL = 'http://localhost:8000/api';
+const baseURL = 'https://dcc-prdq.onrender.com/api';
 export default baseURL;
