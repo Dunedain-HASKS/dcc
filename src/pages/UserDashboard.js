@@ -1,58 +1,107 @@
 import React, { useEffect, useState } from 'react';
 import './UserDashboard.css';
-// Mock user data
-const mockUserData = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  profileImage: 'https://via.placeholder.com/150',
-  questionsCreated: [
-    { id: 1, title: 'Two Sum' },
-    { id: 2, title: 'Reverse Linked List' },
-  ],
-  questionsSolved: [
-    { id: 3, title: 'Longest Substring Without Repeating Characters' },
-    { id: 4, title: 'Valid Parentheses' },
-  ]
-};
-
+import axios from 'axios';
+import baseURL from '../utils/baseURL';
+import { Link } from 'react-router-dom';
 const UserDashboard = () => {
   const [userData, setUserData] = useState(null);
+  
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userName = localStorage.getItem('userName');
+        if (userName) {
+          axios.get(`${baseURL}/user/${userName}`).then((response) => {
+            setUserData(response.data);
+            console.log(response.data);
+          });
+          console.log('User found in localStorage', userData);
+        } else {
+          console.log('No user found in localStorage');
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+// 
+
+// const fetchProblem = async (questionId) => {
+//   try {
+//     const response = await axios.get(`${baseURL}/question/${questionId}`, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'username': localStorage.getItem('userName'),
+//       },
+//     });
+//     console.log(response.data);
+//     return response.data.title; 
+//   } catch (error) {
+//     console.error('Error fetching question:', error);
+//     return null;
+//   }
+// };
+
+const [questionTitles, setQuestionTitles] = useState([]);
 
   useEffect(() => {
-    // Using mock data instead of an API call
-    setUserData(mockUserData);
-  }, []);
+    const fetchAllQuestions = async () => {
+      try {
+        const titles = await Promise.all(userData?.solvedQuestions.map(async (question) => {
+          const response = await axios.get(`${baseURL}/question/${question}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'username': localStorage.getItem('userName'),
+            },
+          });
+          return { id: question, title: response.data.question.title };
+        }));
+        console.log("question : ");
+        console.log(titles);
+        setQuestionTitles(titles);
+      } catch (error) {
+        console.error('Error fetching question titles:', error);
+      }
+    };
+
+    fetchAllQuestions();
+  }, [userData]);
 
   if (!userData) return <p>Loading...</p>;
 
   return (
     <div className="user-dashboard">
       <div className="profile-section">
-        <img src={userData.profileImage} alt="Profile" className="profile-image"/>
-        <h2>{userData.name}</h2>
-        <p>{userData.email}</p>
+        <h2>{userData.username}</h2>
       </div>
 
       <div className="stats-section">
         <div className="stats">
-          <h3>Questions Created</h3>
-          <p>{userData.questionsCreated.length}</p>
+          <h3>Accuracy </h3>
+          {
+            userData.solvedQuestions.length > 0
+              ? <p>{((userData.rightSub / (userData.rightSub + userData.wrongSub)) * 100).toFixed(2)}%</p>
+              : <p>0%</p>
+          }
         </div>
         <div className="stats">
           <h3>Questions Solved</h3>
-          <p>{userData.questionsSolved.length}</p>
+          <p>{userData.solvedQuestions.length}</p>
         </div>
       </div>
 
       <div className="questions-section">
         <h3>Questions Solved</h3>
         <ul>
-          {userData.questionsSolved.map(question => (
-            <li key={question.id}>
-              <a href={`/question/${question.id}`}>{question.title}</a>
-            </li>
-          ))}
-        </ul>
+      {questionTitles.map(({ id, title }) => (
+        <li key={id}>
+          <Link to={`/question/${id}`}>{title}</Link>
+        </li>
+      ))}
+    </ul>
       </div>
     </div>
   );

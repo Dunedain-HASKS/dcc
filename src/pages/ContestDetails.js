@@ -67,14 +67,16 @@ const ContestDetails = () => {
           <h3>Leaderboard</h3>
           {leaderboard.length > 0 ? (
             <ul>
-              {leaderboard.map((user, index) => (
+            {leaderboard
+              .sort((a, b) => b.solved - a.solved)
+              .map((user, index) => (
                 <li key={user.username}>
                   <span>{index + 1}. </span>
                   <span>{user.username} </span>
-                  <span>solve : {user.solved}</span>
+                  <span>solve: {user.solved}</span>
                 </li>
               ))}
-            </ul>
+          </ul>
           ) : (
             <p>No participants have solved any questions yet.</p>
           )}
