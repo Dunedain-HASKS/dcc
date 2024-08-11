@@ -37,7 +37,8 @@ export async function loginUser(req, res) {
 }
 
 export async function showUser(req, res) {
-  const user = await User.findById(req.params.id);
+  const username = req.params.id;
+  const user = await User.findOne({username});
   if (user) {
     res.json(user);
   } else {
