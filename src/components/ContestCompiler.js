@@ -34,7 +34,13 @@ int main() {
     const runSamppleTestCases = async () => {
         setLoading(true);
         try {
-
+            const contest = await Axios.get(`${baseURL}/contest/${contestId}`);
+            if (new Date(contest.data.endTime) < new Date())
+            {
+                toast.error('Contest has ended. You cannot submit your code now.');
+                setLoading(false);
+                return;
+            }
             toast.info('Submitting your code...');
 
             const response = await Axios.post(`${baseURL}/contest/${contestId}/${questionId}/run`, {
@@ -61,6 +67,14 @@ int main() {
     const submitCode = async () => {
         setLoading(true);
         try {
+
+            const contest = await Axios.get(`${baseURL}/contest/${contestId}`);
+            if (new Date(contest.data.endTime) < new Date())
+            {
+                toast.error('Contest has ended. You cannot submit your code now.');
+                setLoading(false);
+                return;
+            }
 
             toast.info('Submitting your code...');
 
