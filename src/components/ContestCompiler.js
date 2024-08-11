@@ -104,7 +104,7 @@ int main() {
                 
                 if (response.data.solutions.length > 0)
                 {
-                    for (let i = 0; i < response.data.solutions.length; i++)
+                    for (let i = response.data.solutions.length - 1; i >= 0; i--)
                     {
                         if (response.data.solutions[i].language === userLang)
                         {

@@ -127,6 +127,7 @@ export async function submitQuestion(req, res) {
       code,
       user: user._id,
       question: queId,
+      language,
     };
     await Solution.create(newSolution);
 

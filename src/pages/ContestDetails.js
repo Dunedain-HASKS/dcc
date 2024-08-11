@@ -58,7 +58,7 @@ const ContestDetails = () => {
           <ul>
             {contest.questions.map((question) => (
               <li key={question._id}>
-                <Link to={`/problems/${question._id}`}>{question.title}</Link>
+                <Link to={`/contests/${id}/${question._id}`}>{question.title}</Link>
               </li>
             ))}
           </ul>
