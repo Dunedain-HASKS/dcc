@@ -75,13 +75,16 @@ int main() {
             });
 
             if (response.data.error)
+            {
                 toast.error(response.data.error);
-                
-            else
-                toast.success(response.data.message);
-                
                 setLoading(false);
-                navigate(`/contests/${contestId}`);
+                return;
+            }
+                
+            toast.success(response.data.message);
+            
+            setLoading(false);
+            navigate(`/contests/${contestId}`);
 
             } catch (error) {
             console.error(error);
